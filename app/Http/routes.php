@@ -20,7 +20,7 @@ Route::get('pages/signup',function(){
 });
 
 Route::post('pages/signup','UserController@postRegister');
-
+Route::get('logout', array('uses' => 'UserController@logout'));
 Route::get('pages/login',function(){
     return View::make('pages.login');
 });
