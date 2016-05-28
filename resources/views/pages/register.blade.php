@@ -29,7 +29,7 @@
                 <br>
                 <div class="wow fadeIn" data-wow-delay="0.3s">
                   <form method="post">
-                      <input type="hidden" name="_token" value="<?php echo csrf_token();?>">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       <div class="form-group col-lg-offset-3 col-lg-6">
                           <label for="name">Name</label>
                           <input type="text" class="form-control" name="user_name" id="user_name" placeholder="User Name" required>

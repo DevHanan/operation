@@ -5,7 +5,10 @@ use Illuminate\Http\Request;
 use Session;
 class UserController extends Controller {
 
-    public function postRegister(Request $request) {
+//**************************Register************************************//
+
+    public function postRegister(Request $request)
+    {
         $user_name = $request->input('user_name');
         $email = $request->input('email');
         $password = $request->input('password');
@@ -18,6 +21,7 @@ class UserController extends Controller {
         $response = $this->apiConnection($data);
         var_dump($response);
     }
+//**************************Login************************************//
 
     public function postLogin(Request $request) {
         $email = $request->input('email');
@@ -42,5 +46,36 @@ class UserController extends Controller {
         Session::flush();
         return view('pages/home');
     }
+//**************************ForgetPassword************************************//
+    public function postForgetPassword(Request $request)
+    {
+        $email = $request->input('email');
 
+        $data = array(
+            'email' => $email,
+            'action' => 'generate_reset_token'
+        );
+
+        $this->apiConnection($data);
+    }
+
+//**************************ChangePassword************************************//
+
+    public function postChangePassword(Request $request)
+    {
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $password_confirmation = $request->input('password_confirmation');
+        $token = Input::get('token');
+
+        $data = array(
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $password_confirmation,
+            'token' => $token,
+            'action' => 'change_password'
+        );
+
+        $this->apiConnection($data);
+    }
 }
