@@ -28,7 +28,7 @@
                 <br><br>
                 <div class="wow fadeIn" data-wow-delay="0.3s">
                     <form  method="post">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token();?>">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group col-lg-offset-3 col-lg-6">
                             <label for="Email1">Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="Email">
@@ -39,7 +39,7 @@
                             <br>
                             <button type="submit" class="btn btn-block btn-primary">Login</button>
                             <br>
-                            <a href="{{ url('pages/forgot') }}"> Forget Password ??</a>
+                            <a href="{{ url('pages/forget_password') }}"> Forget Password ??</a>
                         </div>
                     </form>
                 </div>

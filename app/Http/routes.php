@@ -15,14 +15,32 @@ Route::get('/', function () {
     return View::make('pages.home');
 });
 
+//*************SignUp***************//
+
 Route::get('pages/signup',function(){
     return View::make('pages.register');
 });
-
 Route::post('pages/signup','UserController@postRegister');
+
+//*************Login***************//
 
 Route::get('pages/login',function(){
     return View::make('pages.login');
 });
-
 Route::post('pages/login','UserController@postLogin');
+
+//**************ForgetPassword**************//
+
+Route::get('pages/forget_password',function(){
+    return View::make('pages.forget_password');
+});
+Route::post('pages/forget_password','UserController@postForgetPassword');
+
+//**************ChangePassword**************//
+
+Route::get('pages/change_password',function(){
+    return View::make('pages.change_password');
+});
+Route::post('pages/change_password','UserController@postChangePassword');
+
+//****************************//

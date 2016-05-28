@@ -16,7 +16,7 @@ class Controller extends BaseController
     public function apiConnection($data)
     {
         $hashed_array = $data;
-        $key = "e10adc3949ba59abbe56e057f20f883e";
+        $key = 'mjHr8Kc7LQ3twxXIVCFSl5#cMf#6bUSv';
         $hashed_array['key'] = $key;
 
         $hash = md5(implode("", $hashed_array));
@@ -34,6 +34,8 @@ class Controller extends BaseController
         $response = Curl::to($url)
             ->withData($fields)
             ->post();
+        var_dump($response);
         return $response;
+
     }
 }
