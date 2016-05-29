@@ -45,4 +45,8 @@ Route::get('pages/user_profile',function(){
 });
 Route::post('pages/user_profile','UserController@getUserProfile');
 
-
+//****************InviteUser******************//
+Route::get('pages/invite_user',function(){
+    return View::make('pages.invite_user');
+});
+Route::post('pages/invite_user','UserController@postInviteUser');
