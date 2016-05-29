@@ -15,17 +15,14 @@
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="">WelCome {{ Session::get('name') }}</a></li>
                 <li><a href="{{ url('logout') }}">Log out</a></li>
-                
               </ul>
             @else
-                 
             <ul class="nav navbar-nav navbar-right text-uppercase">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="{{ url('pages/login') }}">Login</a></li>
                 <li><a href="{{ url('pages/signup') }}">Sign Up</a></li>
                 <li><a href="{{ url('pages/documentation') }}">Documentation</a></li>
             </ul>
-            
             @endif
         </div>
     </div>
