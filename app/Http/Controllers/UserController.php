@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Session;
+
 class UserController extends Controller {
 
 //**************************Register************************************//
 
-    public function postRegister(Request $request)
-    {
+    public function postRegister(Request $request) {
         $user_name = $request->input('user_name');
         $email = $request->input('email');
         $password = $request->input('password');
@@ -21,6 +22,7 @@ class UserController extends Controller {
         $response = $this->apiConnection($data);
 //        var_dump($response);
     }
+
 //**************************Login************************************//
 
     public function postLogin(Request $request) {
@@ -34,21 +36,22 @@ class UserController extends Controller {
         $response = json_decode($this->apiConnection($data), true);
 //        var_dump($response);
         if ($response['status'] == 200) {
-                session(['name' => $response['user_name']]);
-                session(['email' => $email]);
-                session(['user_id' => $response['user_id']]);
-                return view('pages/home');
+            session(['name' => $response['user_name']]);
+            session(['email' => $email]);
+            session(['user_id' => $response['user_id']]);
+            return view('pages/home');
         } else {
             return view('pages/login');
         }
     }
-    public function logout(){
+
+    public function logout() {
         Session::flush();
         return view('pages/home');
     }
+
 //**************************ForgetPassword************************************//
-    public function postForgetPassword(Request $request)
-    {
+    public function postForgetPassword(Request $request) {
         $email = $request->input('email');
 
         $data = array(
@@ -61,8 +64,7 @@ class UserController extends Controller {
 
 //**************************ChangePassword************************************//
 
-    public function postChangePassword(Request $request)
-    {
+    public function postChangePassword(Request $request) {
         $email = $request->input('email');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
@@ -81,24 +83,16 @@ class UserController extends Controller {
 
 //**************************UserProfile************************************//
 
-    public function getUserProfile(Request $request)
-    {
-        $user_id = $request->input('user_id');
-
+    public function getUserProfile() {
+        $user_id = Session::get('user_id');
         $data = array(
             'user_id' => $user_id,
             'action' => 'get_profile'
         );
-
-//        $this->user_profile = json_decode($this->apiConnection($data));
-//        var_dump($response);
-//        $response = $this->apiConnection($data);
-//        var_dump($response);
-//        if($response['status'] == 200)
-//        {
-
-        return View::make('user_profile')->with($data);
-//        }
-
+        $response = json_decode($this->apiConnection($data), true);
+        if ($response['status'] == 200) {
+            $mydata = $response['data'];
+            return view('pages.user_profile')->with('data', $mydata);
+        }
     }
 }

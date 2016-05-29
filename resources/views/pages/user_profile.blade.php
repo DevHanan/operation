@@ -27,14 +27,13 @@
     <div class="overlay">
         <div class="container">
             <div class="form">
-                <input type="hidden" name="user_id" value="{{ Session::get('user_id') }}">
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label form="name">Name</label>
-                        <input  type="text" class="form-control" name="name" value="{{ $data['action'] }}">
+                        <input  type="text" class="form-control" name="name" value="{{ $data['user_name'] }}">
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label form="email">Email</label>
-                    <input  type="text" class="form-control" name="name" value="{{ Session::get('email') }}">
+                    <input  type="text" class="form-control" name="name" value="{{ $data['user_email'] }}">
                 </div>
             </div>
         </div>

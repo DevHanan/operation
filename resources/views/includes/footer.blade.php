@@ -1,5 +1,5 @@
 <div class="container">
     <div class="row">
-        <p>Copyright © 2016 SaaS Application Team</p>
+        <p>Copyright © 2016 The Rocket Team</p>
     </div>
 </div>

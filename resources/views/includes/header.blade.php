@@ -16,7 +16,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WelCome {{ Session::get('name') }}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url('pages/user_profile') }}">Profile</a></li>
+                        <li><a href="{{ url('user_profile') }}">Profile</a></li>
                         <li><a href="#">Teams</a></li>
                         <li><a href="#">Plans</a></li>
                         <li role="separator" class="divider"></li>

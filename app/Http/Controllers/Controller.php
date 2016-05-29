@@ -34,7 +34,6 @@ class Controller extends BaseController
         $response = Curl::to($url)
             ->withData($fields)
             ->post();
-        var_dump($response);
         return $response;
 
     }

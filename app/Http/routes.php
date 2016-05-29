@@ -40,9 +40,10 @@ Route::get('pages/change_password',function(){
 Route::post('pages/change_password','UserController@postChangePassword');
 
 //************UserProfile****************//
-Route::get('pages/user_profile',function(){
-    return View::make('pages.user_profile');
-});
-Route::post('pages/user_profile','UserController@getUserProfile');
+//Route::get('pages/user_profile',function(){
+//    return View::make('pages.user_profile');
+//});
+//Route::post('pages/user_profile','UserController@getUserProfile');
+Route::get('user_profile', array('uses' => 'UserController@getUserProfile'));
 
 
