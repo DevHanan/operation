@@ -19,7 +19,7 @@ class UserController extends Controller {
             'action' => 'signup'
         );
         $response = $this->apiConnection($data);
-        var_dump($response);
+//        var_dump($response);
     }
 //**************************Login************************************//
 
@@ -32,14 +32,14 @@ class UserController extends Controller {
             'action' => 'login'
         );
         $response = json_decode($this->apiConnection($data), true);
-        //var_dump($response);
+//        var_dump($response);
         if ($response['status'] == 200) {
                 session(['name' => $response['user_name']]);
                 session(['email' => $email]);
                 session(['user_id' => $response['user_id']]);
                 return view('pages/home');
         } else {
-            return Redirect::to('pages/login');
+            return view('pages/login');
         }
     }
     public function logout(){
@@ -77,5 +77,28 @@ class UserController extends Controller {
         );
 
         $this->apiConnection($data);
+    }
+
+//**************************UserProfile************************************//
+
+    public function getUserProfile(Request $request)
+    {
+        $user_id = $request->input('user_id');
+
+        $data = array(
+            'user_id' => $user_id,
+            'action' => 'get_profile'
+        );
+
+//        $this->user_profile = json_decode($this->apiConnection($data));
+//        var_dump($response);
+//        $response = $this->apiConnection($data);
+//        var_dump($response);
+//        if($response['status'] == 200)
+//        {
+
+        return View::make('user_profile')->with($data);
+//        }
+
     }
 }
