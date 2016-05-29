@@ -95,4 +95,21 @@ class UserController extends Controller {
             return view('pages.user_profile')->with('data', $mydata);
         }
     }
+
+//**************************InviteUsers************************************//
+    public function postInviteUser(Request $request)
+    {
+        $admin_email = $request->input('admin_email');
+        $admin_password = $request->input('admin_password');
+        $invited_emails = $request->input('invited_emails');
+
+        $data = array(
+            'admin_email' => $admin_email,
+            'admin_password' => $admin_password,
+            'invited_emails' => $invited_emails,
+            'action' => 'invite_users'
+        );
+
+        $this->apiConnection($data);
+    }
 }

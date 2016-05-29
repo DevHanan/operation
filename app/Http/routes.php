@@ -46,4 +46,8 @@ Route::post('pages/change_password','UserController@postChangePassword');
 //Route::post('pages/user_profile','UserController@getUserProfile');
 Route::get('user_profile', array('uses' => 'UserController@getUserProfile'));
 
-
+//****************InviteUser******************//
+Route::get('pages/invite_user',function(){
+    return View::make('pages.invite_user');
+});
+Route::post('pages/invite_user','UserController@postInviteUser');
