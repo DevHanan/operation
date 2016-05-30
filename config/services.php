@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('samples.mailgun.org'),
+        'secret' => env('key-3ax6xnjp29jd6fds4gc373sgvjxteol0'),
     ],
 
     'ses' => [
@@ -30,7 +30,6 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

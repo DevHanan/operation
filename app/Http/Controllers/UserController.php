@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
-
+use Mail;
 class UserController extends Controller {
 
 //**************************Register************************************//
@@ -46,6 +46,13 @@ class UserController extends Controller {
     }
 
     public function logout() {
+        $user = array();
+        $user['email'] = Session::get('user_email');
+        $user['name'] = Session::get('user_name');
+        Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+            $m->from('hello@app.com', 'Your Application');
+            $m->to($user['email'], $user['name'])->subject('Your Reminder!');
+        });
         Session::flush();
         return view('pages/home');
     }
@@ -109,7 +116,6 @@ class UserController extends Controller {
             'invited_emails' => $invited_emails,
             'action' => 'invite_users'
         );
-
         $this->apiConnection($data);
     }
 }
