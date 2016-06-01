@@ -54,3 +54,13 @@ Route::get('pages/invite_user',function(){
     return View::make('pages.invite_user');
 });
 Route::post('pages/invite_user','UserController@postInviteUser');
+
+//****************getTeamMembers******************//
+//Route::get('pages/get_teams',function(){
+//    return View::make('pages.get_teams');
+//});
+Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
+
+//****************activate & deactivate User******************//
+Route::post('get_teams', 'UserController@activateUser');
+
