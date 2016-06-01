@@ -26,7 +26,7 @@
     <div class="overlay">
         <div class="container">
             <form method="post">
-                <input type="hidden" name="token">
+                <input type="hidden" name="token" value="{{ $token }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label for="email">Enter Your Email</label>
