@@ -133,9 +133,10 @@ class UserController extends Controller {
         );
 
         $response = json_decode($this->apiConnection($data), true);
-       // var_dump($response);die();
+      //  var_dump($response);die();
         if ($response['status'] == 200) {
           $mydata = $response['data'];
+          // var_dump($mydata);die();
             return view('pages.get_teams')->with('data', $mydata);
 
         }
@@ -145,16 +146,9 @@ class UserController extends Controller {
 //**************************Activate & Deactivate User************************************//
     public function activateUser(Request $request)
     {
-//        $team_id = $teamID;
-//        //var_dump($team_id);die();
-//        $user_id = $userID;
-
-        $data = $this->getTeamMembers();
-        $data2 = $data['data'];
-        $user_id = $data2[0]['user_id'];
-        $team_id = $data2[0]['teams_team_id'];
-    //   var_dump($user_id);exit();
-       $admin_password = $request->input('password');
+        $team_id = $request->input('team_id');
+        $user_id = $request->input('user_id');
+        $admin_password = $request->input('password');
 
         $data = array(
             'team_id' => $team_id,
@@ -164,7 +158,7 @@ class UserController extends Controller {
         );
 
         $response = $this->apiConnection($data);
-        var_dump($response);die();
+        var_dump($response);
 
     }
 
