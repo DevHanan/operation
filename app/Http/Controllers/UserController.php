@@ -35,7 +35,7 @@ class UserController extends Controller {
             'action' => 'login'
         );
         $response = json_decode($this->apiConnection($data), true);
-//        var_dump($response);
+        //var_dump($response);
         if ($response['status'] == 200) {
             session(['name' => $response['user_name']]);
             session(['email' => $email]);
@@ -124,7 +124,55 @@ class UserController extends Controller {
         $response = $this->apiConnection($data);
         var_dump(json_decode($response,true));
     }
+//**************************getTeamMembers************************************//
+    public function getTeamMembers()
+    {
+        $user_email = Session::get('email');
+        $data = array(
+            'email' => $user_email,
+            'action' => 'get_team_members'
+        );
 
+        $response = json_decode($this->apiConnection($data), true);
+       // var_dump($response);die();
+        if ($response['status'] == 200) {
+          $mydata = $response['data'];
+            return view('pages.get_teams')->with('data', $mydata);
+
+        }
+
+    }
+
+//**************************Activate & Deactivate User************************************//
+    public function activateUser(Request $request)
+    {
+//        $team_id = $teamID;
+//        //var_dump($team_id);die();
+//        $user_id = $userID;
+
+        $data = $this->getTeamMembers();
+        $data2 = $data['data'];
+        $user_id = $data2[0]['user_id'];
+        $team_id = $data2[0]['teams_team_id'];
+    //   var_dump($user_id);exit();
+       $admin_password = $request->input('password');
+
+        $data = array(
+            'team_id' => $team_id,
+            'user_id' => $user_id,
+            'password' => $admin_password,
+            'action' => 'activateUser_inTeam'
+        );
+
+        $response = $this->apiConnection($data);
+        var_dump($response);die();
+
+    }
+
+    public function deactivateUser()
+    {
+
+    }
 }
 
 /*

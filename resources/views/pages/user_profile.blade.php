@@ -34,6 +34,8 @@
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label form="email">Email</label>
                     <input  type="text" class="form-control" name="name" value="{{ $data['user_email'] }}">
+                    <br>
+                    <a href="{{ url('pages/change_password') }}">Change Password</a>
                 </div>
             </div>
         </div>
