@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label for="Email">Enter Your Admin Password</label>
-                    <input type="email" class="form-control" name="admin_password"  placeholder="Password">
+                    <input type="password" class="form-control" name="admin_password"  placeholder="Password">
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label for="Email">Invited Emails Sperated By Enter "New Line"</label>

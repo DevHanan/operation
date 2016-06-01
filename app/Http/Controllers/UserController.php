@@ -121,7 +121,8 @@ class UserController extends Controller {
             'invited_emails' => $invited_emails,
             'action' => 'invite_users'
         );
-        $this->apiConnection($data);
+        $response = $this->apiConnection($data);
+        var_dump(json_decode($response,true));
     }
 
 }
