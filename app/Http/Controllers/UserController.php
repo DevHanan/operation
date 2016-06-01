@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+//use Mailgun;
 use Mail;
+
 class UserController extends Controller {
 
 //**************************Register************************************//
@@ -20,8 +22,7 @@ class UserController extends Controller {
             'action' => 'signup'
         );
         $response = $this->apiConnection($data);
-//        var_dump($response);
-    }
+     }
 
 //**************************Login************************************//
 
@@ -46,13 +47,6 @@ class UserController extends Controller {
     }
 
     public function logout() {
-        $user = array();
-        $user['email'] = Session::get('user_email');
-        $user['name'] = Session::get('user_name');
-        Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
-            $m->from('hello@app.com', 'Your Application');
-            $m->to($user['email'], $user['name'])->subject('Your Reminder!');
-        });
         Session::flush();
         return view('pages/home');
     }
@@ -65,8 +59,20 @@ class UserController extends Controller {
             'email' => $email,
             'action' => 'generate_reset_token'
         );
-
-        $this->apiConnection($data);
+        $response = json_decode($this->apiConnection($data), true);
+        if ($response['status'] == 200) {
+            $mymessage = array(
+                'email' => $email,
+                'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+            );
+            Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
+                $message->from('site_admin@gmail.com', 'Rest Password');
+                $message->to($email)->subject('Rest Password Email');
+            });
+        }
+        else {
+            var_dump($response);
+        }
     }
 
 //**************************ChangePassword************************************//
@@ -75,8 +81,7 @@ class UserController extends Controller {
         $email = $request->input('email');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
-        $token = Input::get('token');
-
+        $token = $request->input('token');
         $data = array(
             'email' => $email,
             'password' => $password,
@@ -85,7 +90,8 @@ class UserController extends Controller {
             'action' => 'change_password'
         );
 
-        $this->apiConnection($data);
+        $response = $this->apiConnection($data);
+        var_dump($response);
     }
 
 //**************************UserProfile************************************//
@@ -104,8 +110,7 @@ class UserController extends Controller {
     }
 
 //**************************InviteUsers************************************//
-    public function postInviteUser(Request $request)
-    {
+    public function postInviteUser(Request $request) {
         $admin_email = $request->input('admin_email');
         $admin_password = $request->input('admin_password');
         $invited_emails = $request->input('invited_emails');
@@ -118,4 +123,38 @@ class UserController extends Controller {
         );
         $this->apiConnection($data);
     }
+
 }
+
+/*
+
+
+
+        $data = array(
+            'customer' => 'Amrfayad',
+            'url' => 'http://laravel.com'
+        );
+
+        Mail::send('pages.welcome', $data, function ($message) {
+            $message->from('testtest@gmail.com', 'Learning Laravel');
+            $message->to('amr.fci2007@gmail.com')->subject('Learning Laravel test email');
+        });
+        return "Your email has been sent successfully";
+
+
+
+        /* $user = array();
+          $user['email'] = Session::get('user_email');
+          $user['name'] = Session::get('user_name');
+          $data = array(
+          'customer' => 'Amrfayad',
+          'url' => 'http://laravel.com'
+          );
+          /*Mailgun::send('pages.welcome', $data, function($message) {
+          $message->to('amr.fci2007@gmail.com', 'Amr fayad')->subject('Welcome!');
+          });
+          Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+          $m->from('hello@app.com', 'Your Application');
+          $m->to($user['email'], $user['name'])->subject('Your Reminder!');
+          });  //die();
+  */

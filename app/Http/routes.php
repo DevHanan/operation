@@ -32,12 +32,15 @@ Route::get('pages/forget_password',function(){
     return View::make('pages.forget_password');
 });
 Route::post('pages/forget_password','UserController@postForgetPassword');
-
-//**************ChangePassword**************//
+/*
 Route::get('pages/change_password',function(){
-    return View::make('pages.change_password');
+    return View::make('pages.change_password')->with('token','a5890802dded926bbdc9feb032a6ae5f');
+});*/
+//**************ChangePassword**************//
+Route::get('pages/change_password/{token}',function($token){
+    return View::make('pages.change_password')->with('token', $token);
 });
-Route::post('pages/change_password','UserController@postChangePassword');
+Route::post('pages/change_password/{token}','UserController@postChangePassword');
 
 //************UserProfile****************//
 //Route::get('pages/user_profile',function(){

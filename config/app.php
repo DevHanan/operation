@@ -18,7 +18,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
-    |--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
     |
     | When your application is in debug mode, detailed error messages with
     | stack traces will be shown on every error that occurs within your
@@ -156,7 +156,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        //Bogardo\Mailgun\MailgunServiceProvider::class,
+        Bogardo\Mailgun\MailgunServiceProvider::class,
 
     ],
 
@@ -210,6 +210,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
 
     ],
 
