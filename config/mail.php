@@ -10,5 +10,4 @@ return array(
     'password' => '123456',
     'sendmail' => '/usr/sbin/sendmail -bs',
     'pretend' => false,
- 
-);
+ );
