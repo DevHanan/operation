@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Mail;
 
 class UserController extends Controller {
 
@@ -20,7 +21,7 @@ class UserController extends Controller {
             'action' => 'signup'
         );
         $response = $this->apiConnection($data);
-//        var_dump($response);
+        
     }
 
 //**************************Login************************************//
@@ -97,8 +98,7 @@ class UserController extends Controller {
     }
 
 //**************************InviteUsers************************************//
-    public function postInviteUser(Request $request)
-    {
+    public function postInviteUser(Request $request) {
         $admin_email = $request->input('admin_email');
         $admin_password = $request->input('admin_password');
         $invited_emails = $request->input('invited_emails');
@@ -112,4 +112,5 @@ class UserController extends Controller {
 
         $this->apiConnection($data);
     }
+
 }
