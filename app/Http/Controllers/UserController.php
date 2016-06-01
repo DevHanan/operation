@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
-<<<<<<< HEAD
-=======
+
 //use Mailgun;
->>>>>>> 33778bbce7f8023eb22e1f43b79f4cb3c79eee80
 use Mail;
 
 class UserController extends Controller {
@@ -25,12 +23,7 @@ class UserController extends Controller {
             'action' => 'signup'
         );
         $response = $this->apiConnection($data);
-<<<<<<< HEAD
-        
-    }
-=======
-     }
->>>>>>> 33778bbce7f8023eb22e1f43b79f4cb3c79eee80
+}
 
 //**************************Login************************************//
 
