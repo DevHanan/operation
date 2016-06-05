@@ -69,3 +69,12 @@ Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
 //****************activate & deactivate User******************//
 Route::post('get_teams', 'UserController@activateUser');
 
+
+Route::get('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
+Route::get('notifications/subscription-deactivated', array('uses' =>'NotificationsController@subscriptionDeactivated'));
+Route::get('notifications/subscription-changed', array('uses' =>'NotificationsController@subscriptionChanged'));
+Route::get('notifications/payment-failed', array('uses' =>'NotificationsController@paymentFailed'));
+
+
+
+

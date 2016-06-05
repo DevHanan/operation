@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Ixudra\Curl\Facades\Curl;
+
 use Session;
 //use Mailgun;
 use Mail;
@@ -61,19 +63,38 @@ class UserController extends Controller {
             'action' => 'generate_reset_token'
         );
         $response = json_decode($this->apiConnection($data), true);
+        
         if ($response['status'] == 200) {
+        $url = "http://www.sendemail.xyz/script.php";
+            $fields = array(
+                'email' => $email , 
+                'subject' => 'Rest Password',
+                'content' => 'to reset Your password please visit http://www.iti2016.xyz/pages/change_password/' . $response['token']
+                            
+            );
+            $fields_string = null;
+            foreach ($fields as $key => $value) {
+              $fields_string .= $key . '=' . $value . '&';
+            }
+            $response = Curl::to($url)
+                ->withData($fields)
+                ->post();
+            var_dump($response);
+        }
+        
+        /*if ($response['status'] == 200) {
             $mymessage = array(
                 'email' => $email,
                 'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
-                $message->from('site_admin@gmail.com', 'Rest Password');
+                $message->from('a.fayad700@gmail.com', 'Rest Password');
                 $message->to($email)->subject('Rest Password Email');
             });
         }
         else {
             var_dump($response);
-        }
+        }*/
     }
 
 //**************************ChangePassword************************************//
