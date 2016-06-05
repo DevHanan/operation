@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 //use Mailgun;
 use Mail;
+use Validator;
 
 class UserController extends Controller {
 
@@ -111,7 +112,8 @@ class UserController extends Controller {
 
 //**************************InviteUsers************************************//
     public function postInviteUser(Request $request) {
-        $admin_email = $request->input('admin_email');
+        //$admin_email = $request->input('admin_email');
+        $admin_email = Session::get('email');
         $admin_password = $request->input('admin_password');
         $invited_emails = $request->input('invited_emails');
 
@@ -121,8 +123,39 @@ class UserController extends Controller {
             'invited_emails' => $invited_emails,
             'action' => 'invite_users'
         );
-        $response = $this->apiConnection($data);
-        var_dump(json_decode($response,true));
+        $response = json_decode($this->apiConnection($data), true);
+        //var_dump($response['emails']);die();
+        $signUp_emails = $response['emails']['signup'];
+       // $login_emails = $response['emails']['login'];
+        if($response['status'] == 200)
+        {
+            foreach($signUp_emails as $email){
+
+                $signUpMessage = array(
+                    'invited_email' => $email,
+                    'url' => 'http://localhost:8000/pages/invite_user',
+                );
+                Mail::send('pages.inviteUsers_message',$signUpMessage,function($message) use($email){
+                    $message->from('site_admin@gmail.com','Invite User');
+                    $message->to($email)->subject('Invite User Email');
+                });
+            }
+
+//            foreach($login_emails as $email){
+//
+//                $loginMessage = array(
+//                    'invited_email' => $email,
+//                    'url' => 'http://localhost:8000/pages/invite_user',
+//                );
+//                Mail::send('pages.inviteUsers_message',$loginMessage,function($message) use(&$login_emails){
+//                    $message->from('site_admin@gmail.com','Invite User');
+//                    $message->to($login_emails)->subject('Invite User Email');
+//                });
+//            }
+
+
+
+        }
     }
 //**************************getTeamMembers************************************//
     public function getTeamMembers()
@@ -134,7 +167,7 @@ class UserController extends Controller {
         );
 
         $response = json_decode($this->apiConnection($data), true);
-      //  var_dump($response);die();
+       //var_dump($response);die();
         if ($response['status'] == 200) {
           $mydata = $response['data'];
           // var_dump($mydata);die();
@@ -147,9 +180,25 @@ class UserController extends Controller {
 //**************************Activate & Deactivate User************************************//
     public function activateUser(Request $request)
     {
-        $team_id = $request->input('team_id');
-        $user_id = $request->input('user_id');
-        $admin_password = $request->input('password');
+
+        $this->validate($request,[
+            'password' => 'required'
+        ]);
+
+//        $validator = Validator::make($request->all(),[
+//            'password' => 'required',
+//        ]);
+//
+//        if($validator->fails())
+//        {
+//            return redirect('get_teams')->withErrors($validator);
+//        }
+
+
+
+        $team_id = $request->team_id;
+        $user_id = $request->user_id;
+        $admin_password = $request->password;
 
         $data = array(
             'team_id' => $team_id,
@@ -170,9 +219,6 @@ class UserController extends Controller {
 }
 
 /*
-
-
-
         $data = array(
             'customer' => 'Amrfayad',
             'url' => 'http://laravel.com'

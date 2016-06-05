@@ -13,3 +13,4 @@
 <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css')}}">
 <link rel="stylesheet" href="{{URL::asset('css/templatemo-style.css')}}">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
