@@ -64,11 +64,11 @@ class UserController extends Controller {
         $response = json_decode($this->apiConnection($data), true);
         
         if ($response['status'] == 200) {
-        $url = "http://127.0.0.1/sendemail/script.php";
+        $url = "http://www.sendemail.xyz/script.php";
             $fields = array(
                 'email' => $email , 
                 'subject' => 'Rest Password',
-                'content' => 'to reset Your password please visit http://localhost:8000/pages/change_password/' . $response['token']
+                'content' => 'to reset Your password please visit http://www.iti2016.xyz/pages/change_password/' . $response['token']
                             
             );
             $fields_string = null;
