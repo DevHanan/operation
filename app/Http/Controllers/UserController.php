@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Ixudra\Curl\Facades\Curl;
+
 use Session;
 //use Mailgun;
 use Mail;
@@ -60,7 +62,26 @@ class UserController extends Controller {
             'action' => 'generate_reset_token'
         );
         $response = json_decode($this->apiConnection($data), true);
+        
         if ($response['status'] == 200) {
+        $url = "http://127.0.0.1/sendemail/script.php";
+            $fields = array(
+                'email' => $email , 
+                'subject' => 'Rest Password',
+                'content' => 'to reset Your password please visit http://localhost:8000/pages/change_password/' . $response['token']
+                            
+            );
+            $fields_string = null;
+            foreach ($fields as $key => $value) {
+              $fields_string .= $key . '=' . $value . '&';
+            }
+            $response = Curl::to($url)
+                ->withData($fields)
+                ->post();
+            var_dump($response);
+        }
+        
+        /*if ($response['status'] == 200) {
             $mymessage = array(
                 'email' => $email,
                 'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
@@ -72,7 +93,7 @@ class UserController extends Controller {
         }
         else {
             var_dump($response);
-        }
+        }*/
     }
 
 //**************************ChangePassword************************************//
