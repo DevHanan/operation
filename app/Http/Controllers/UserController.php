@@ -66,7 +66,7 @@ class UserController extends Controller {
                 'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
-                $message->from('site_admin@gmail.com', 'Rest Password');
+                $message->from('a.fayad700@gmail.com', 'Rest Password');
                 $message->to($email)->subject('Rest Password Email');
             });
         }
