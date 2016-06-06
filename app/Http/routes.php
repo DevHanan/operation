@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return View::make('pages.home');
-});
+}); 
 //*************SignUp***************//
 Route::get('pages/signup',function(){
     return View::make('pages.register');

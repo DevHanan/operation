@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
                     <label for="Email">Invited Emails Sperated By Enter "New Line"</label>
-                    <textarea class="form-control" type="text" name="invited_emails"></textarea>
+                    <textarea class="form-control" name="invited_emails"></textarea>
                     <br>
                     <button type="submit" class="btn btn-block btn-primary">Invite</button>
                 </div>

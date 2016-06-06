@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="token" content="{{csrf_token()}}">
     @include('includes.head')
 </head>
 <body>
