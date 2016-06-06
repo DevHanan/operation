@@ -23,7 +23,15 @@ class UserController extends Controller {
             'pass' => $password,
             'action' => 'signup'
         );
-        $response = $this->apiConnection($data);
+        $response = json_decode($this->apiConnection($data),true);
+        if ($response['status'] == 200) {
+            session(['name' =>  $user_name]);
+            session(['email' => $email]);
+            session(['user_id' => $response['user_id']]);
+            return view('pages/home');
+        } else {
+            return view('pages/register');
+        }
      }
 
 //**************************Login************************************//
