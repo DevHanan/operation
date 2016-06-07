@@ -17,10 +17,9 @@ class NotificationsController extends Controller
         }*/
         $file = "active.txt";
         $data = fopen($file, "a") or die("Can't open file.");
-        foreach ($_REQUEST as $key => $value) {
+        foreach ($_POST as $key => $value) {
                      fwrite($data, $key);
                      fwrite($data,"=");
-                     
                      fwrite($data, $value);
                      fwrite($data,"\n");
                      
@@ -37,7 +36,7 @@ class NotificationsController extends Controller
         }*/
         $file = "deactive.txt";
         $data = fopen($file, "a") or die("Can't open file.");
-        foreach ($_REQUEST as $key => $value) {
+        foreach ($_POST as $key => $value) {
                      fwrite($data, $key);
                      fwrite($data,"=");
                      
@@ -57,7 +56,7 @@ class NotificationsController extends Controller
         }*/
         $file = "changed.txt";
         $data = fopen($file, "a") or die("Can't open file.");
-        foreach ($_REQUEST as $key => $value) {
+        foreach ($_POST as $key => $value) {
                      fwrite($data, $key);
                      fwrite($data,"=");
                      
@@ -77,7 +76,7 @@ class NotificationsController extends Controller
         }*/
         $file = "failed.txt";
         $data = fopen($file, "a") or die("Can't open file.");
-        foreach ($_REQUEST as $key => $value) {
+        foreach ($_POST as $key => $value) {
                      fwrite($data, $key);
                      fwrite($data,"=");
                      
