@@ -70,10 +70,14 @@ Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
 Route::post('get_teams', 'UserController@activateUser');
 
 
-Route::get('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
-Route::get('notifications/subscription-deactivated', array('uses' =>'NotificationsController@subscriptionDeactivated'));
-Route::get('notifications/subscription-changed', array('uses' =>'NotificationsController@subscriptionChanged'));
-Route::get('notifications/payment-failed', array('uses' =>'NotificationsController@paymentFailed'));
+Route::post('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
+Route::get('notifications/subscription-activated',function(){
+    return View::make('pages.notifiaction');
+});
+
+Route::post('notifications/subscription-deactivated', array('uses' =>'NotificationsController@subscriptionDeactivated'));
+Route::post('notifications/subscription-changed', array('uses' =>'NotificationsController@subscriptionChanged'));
+Route::post('notifications/payment-failed', array('uses' =>'NotificationsController@paymentFailed'));
 
 
 
