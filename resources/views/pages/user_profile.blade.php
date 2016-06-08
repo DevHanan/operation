@@ -26,18 +26,16 @@
 <section id="profile">
     <div class="overlay">
         <div class="container">
-            <div class="form">
-                <div class="form-group col-lg-offset-3 col-lg-6">
-                    <label form="name">Name</label>
-                        <input  type="text" class="form-control" name="name" value="{{ $data['user_name'] }}">
-                </div>
-                <div class="form-group col-lg-offset-3 col-lg-6">
-                    <label form="email">Email</label>
-                    <input  type="text" class="form-control" name="name" value="{{ $data['user_email'] }}">
-                    <br>
-                    <a href="{{ url('pages/change_password') }}">Change Password</a>
-                </div>
-            </div>
+            <table class="table">
+                <th>User Name</th>
+                <th>User Email</th>
+                <tr>
+                    <td>{{ $data['user_name'] }}</td>
+                    <td>{{ $data['user_email'] }}</td>
+                </tr>
+            </table>
+            <br>
+            <a href="{{ url('pages/change_password') }}">Change Password</a>
         </div>
     </div>
 </section>

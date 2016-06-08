@@ -67,7 +67,8 @@ Route::post('pages/invite_user','UserController@postInviteUser');
 Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
 
 //****************activate & deactivate User******************//
-Route::post('get_teams', 'UserController@activateUser');
+Route::post('get_teams', array('uses' => 'UserController@userStatues'));
+//Route::post('get_teams', array('uses' => 'UserController@deactivateUser'));
 
 
 Route::get('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
