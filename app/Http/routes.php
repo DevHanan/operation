@@ -70,7 +70,10 @@ Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
 Route::post('get_teams', array('uses' => 'UserController@userStatues'));
 //Route::post('get_teams', array('uses' => 'UserController@deactivateUser'));
 
+//**************** getTeamsInvitedIn ******************//
+Route::get('pending_invitations',array('uses' => 'UserController@getTeamsInvitedIn'));
 
+//********************Notification Module************************//
 Route::get('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
 Route::get('notifications/subscription-deactivated', array('uses' =>'NotificationsController@subscriptionDeactivated'));
 Route::get('notifications/subscription-changed', array('uses' =>'NotificationsController@subscriptionChanged'));

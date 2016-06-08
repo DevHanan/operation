@@ -26,15 +26,7 @@
         <div class="container">
             <form>
                 <input type="password" class="form-control" id="password">
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <label style="display: none" class="label label-danger" id="invalid_password">Invalid Password</label>
                 <table class="table">
                     <th>User Name</th>
                     <th>User Email</th>
@@ -54,23 +46,22 @@
                             {{--@if( $value['Is_active'] == 0)--}}
                                 <input type="hidden" id="is_active{{ $value['user_id'] }}"  value="{{ $value['Is_active'] }}">
                                 <button id="button1" onclick="activate({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
-                                <button id="button2" onclick="activate({{ $value['user_id'] }})" type="button" class="btn btn-danger">Deactivate</button>
-
+                                {{--<button id="button2" onclick="activate({{ $value['user_id'] }})" type="button" class="btn btn-danger">Deactivate</button>--}}
                             {{--@endif--}}
                             {{--@if( $value['Is_active'] == 1)--}}
                                 {{--<input type="hidden" id="is_active{{ $value['user_id'] }}"  value="{{ $value['Is_active'] }}">--}}
                                 {{--<button id="button1" onclick="activate({{ $value['user_id'] }})" type="button" class="btn btn-primary" disabled>Activate</button>--}}
-                                {{--<button id="button2" onclick="deactivate({{ $value['user_id'] }})" type="button" class="btn btn-danger">Deactivate</button>--}}
+                                {{--<button id="button2" onclick="activate({{ $value['user_id'] }})" type="button" class="btn btn-danger">Deactivate</button>--}}
                             {{--@endif--}}
                         </td>
                     </tr>
                     @endforeach
                 </table>
-                <button type="button" class="btn btn-success">Get Pending Teams</button>
             </form>
         </div>
     </div>
 </section>
+
 <script>
 
 
@@ -79,17 +70,15 @@
 //var button1 = document.getElementById('button1');
 //var button2 = document.getElementById('button2');
 
-
    function activate(id){
-
 
        //$('#button2').prop('disabled', false);
 
        var is_active = $('input#is_active'+id).val();
        if(is_active == 1)
        {
-           $('#button1').prop('disabled', true);
-           $('#button2').prop('disabled', false);
+//           $('#button1').prop('disabled', true);
+//           $('#button2').prop('disabled', false);
            var data= {
                team_id:$('input#team_id'+id).val(),
                user_id:$('input#user_id'+id).val(),
@@ -107,13 +96,27 @@
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
                },
-               success: function(data){
-                   // console.log(data);
+               success: function (data) {
+                   console.log(data)
                },
-               error: function(e){
-                   console.log(e);
-               }
+               error: response
            });
+//
+           function response()
+           {
+               var resp = JSON.parse(response);
+               console.log(resp);
+
+               if (typeof(resp) == 'string')
+               {
+                   return 1;
+               }
+
+               else{
+                   $('#invalid_password').fadeOut(5).fadeIn('slow');
+               }
+           }
+
        }else{
            if(is_active == 0)
            {
@@ -216,5 +219,4 @@
        });
 
    }
-
 </script>
