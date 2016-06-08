@@ -21,16 +21,12 @@ class Controller extends BaseController
 
         $hash = md5(implode("", $hashed_array));
         $url = "http://www.saasbase.xyz/member";
+        //$url = "http://localhost/SaaSBase/member";
 
         $fields = array(
             'data' => json_encode($data),
             'hash' => $hash,
         );
-        $fields_string = null;
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
-
         $response = Curl::to($url)
             ->withData($fields)
             ->post();

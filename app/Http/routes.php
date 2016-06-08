@@ -41,12 +41,11 @@ Route::get('pages/change_password/{token}',function($token){
     return View::make('pages.change_password')->with('token', $token);
 });
 Route::post('pages/change_password/{token}','UserController@postChangePassword');
-/*
-Route::get('pages/change_password',function(){
-    return View::make('pages.change_password');
+
+Route::get('pages/change_my_password',function(){
+    return View::make('pages.change_my_password');
 });
-Route::post('pages/change_password/','UserController@postChangePassword');
-*/
+Route::post('pages/change_my_password/','UserController@postChangeMyPassword');
 //************UserProfile****************//
 //Route::get('pages/user_profile',function(){
 //    return View::make('pages.user_profile');
