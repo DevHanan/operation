@@ -12,6 +12,8 @@ use Validator;
 
 class UserController extends Controller {
 
+      static $module = 'member';
+
 //**************************Register************************************//
 
     public function postRegister(Request $request) {
@@ -24,7 +26,7 @@ class UserController extends Controller {
             'pass' => $password,
             'action' => 'signup'
         );
-        $response = $this->apiConnection($data);
+        $response = $this->apiConnection($data,UserController::$module);
      }
 
 //**************************Login************************************//
@@ -37,7 +39,7 @@ class UserController extends Controller {
             'pass' => $password,
             'action' => 'login'
         );
-        $response = json_decode($this->apiConnection($data), true);
+        $response = json_decode($this->apiConnection($data,UserController::$module), true);
         //var_dump($response);
         if ($response['status'] == 200) {
             session(['name' => $response['user_name']]);
@@ -62,7 +64,7 @@ class UserController extends Controller {
             'email' => $email,
             'action' => 'generate_reset_token'
         );
-        $response = json_decode($this->apiConnection($data), true);
+        $response = json_decode($this->apiConnection($data,UserController::$module), true);
         
         if ($response['status'] == 200) {
         $url = "http://www.sendemail.xyz/script.php";
@@ -112,7 +114,7 @@ class UserController extends Controller {
             'action' => 'change_password'
         );
 
-        $response = $this->apiConnection($data);
+        $response = $this->apiConnection($data,UserController::$module);
         var_dump($response);
     }
 
@@ -124,7 +126,7 @@ class UserController extends Controller {
             'user_id' => $user_id,
             'action' => 'get_profile'
         );
-        $response = json_decode($this->apiConnection($data), true);
+        $response = json_decode($this->apiConnection($data,UserController::$module), true);
         if ($response['status'] == 200) {
             $mydata = $response['data'];
             return view('pages.user_profile')->with('data', $mydata);
@@ -144,7 +146,7 @@ class UserController extends Controller {
             'invited_emails' => $invited_emails,
             'action' => 'invite_users'
         );
-        $response = json_decode($this->apiConnection($data), true);
+        $response = json_decode($this->apiConnection($data,UserController::$module), true);
         //var_dump($response['emails']);die();
         $signUp_emails = $response['emails']['signup'];
        // $login_emails = $response['emails']['login'];
@@ -187,7 +189,7 @@ class UserController extends Controller {
             'action' => 'get_team_members'
         );
 
-        $response = json_decode($this->apiConnection($data), true);
+        $response = json_decode($this->apiConnection($data,UserController::$module), true);
        //var_dump($response);die();
         if ($response['status'] == 200) {
           $mydata = $response['data'];
@@ -199,12 +201,12 @@ class UserController extends Controller {
     }
 
 //**************************Activate & Deactivate User************************************//
-    public function activateUser(Request $request)
+    public function userStatues(Request $request)
     {
 
-        $this->validate($request,[
-            'password' => 'required'
-        ]);
+//        $this->validate($request,[
+//            'password' => 'required'
+//        ]);
 
 //        $validator = Validator::make($request->all(),[
 //            'password' => 'required',
@@ -216,27 +218,73 @@ class UserController extends Controller {
 //        }
 
 
+//        $team_id = $request->team_id;
+//        $user_id = $request->user_id;
+//        $admin_id = Session::get('user_id');
+//        $admin_password = $request->password;
+//
+//        $data = array(
+//            'team_id' => $team_id,
+//            'user_id' => $user_id,
+//            'admin_id' => $admin_id,
+//            'password' => $admin_password,
+//            'action' => 'activateUser_inTeam'
+//        );
+//        $response = $this->apiConnection($data,UserController::$module);
+//        var_dump($response);
 
-        $team_id = $request->team_id;
-        $user_id = $request->user_id;
-        $admin_password = $request->password;
+        $user_data = $request->all();
+        //dd($user_data);
+        if($user_data['is_active'] == 0)
+        {
+            $admin_id = Session::get('user_id');
+            $data = array(
+                'team_id' => $user_data['team_id'],
+                'user_id' => $user_data['user_id'],
+                'admin_id' => $admin_id,
+                'password' => $user_data['password'],
+                'action' => 'activateUser_inTeam'
 
-        $data = array(
-            'team_id' => $team_id,
-            'user_id' => $user_id,
-            'password' => $admin_password,
-            'action' => 'activateUser_inTeam'
-        );
+            );
+            $response = $this->apiConnection($data,UserController::$module);
+            var_dump($response);
+        }else{
+            if($user_data['is_active'] == 1)
+            {
+                $admin_id = Session::get('user_id');
+                $data = array(
+                    'team_id' => $user_data['team_id'],
+                    'user_id' => $user_data['user_id'],
+                    'admin_id' => $admin_id,
+                    'password' => $user_data['password'],
+                    'action' => 'deactivateUser_inTeam'
 
-        $response = $this->apiConnection($data);
-        var_dump($response);
+                );
+                $response = $this->apiConnection($data,UserController::$module);
+                var_dump($response);
+            }
+        }
 
     }
 
-    public function deactivateUser()
-    {
-
-    }
+//    public function deactivateUser(Request $request)
+//    {
+//        $team_id = $request->team_id;
+//        $user_id = $request->user_id;
+//        $admin_id = Session::get('user_id');
+//        $admin_password = $request->password;
+//
+//        $data = array(
+//            'team_id' => $team_id,
+//            'user_id' => $user_id,
+//            'admin_id' => $admin_id,
+//            'password' => $admin_password,
+//            'action' => 'deactivateUser_inTeam'
+//        );
+//        $response = $this->apiConnection($data,UserController::$module);
+//        var_dump($response);
+//
+//    }
 }
 
 /*
