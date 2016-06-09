@@ -122,7 +122,6 @@
                    }else{
                        button.text('Activate');
                    }
-
                },
 
                error: function (err) {

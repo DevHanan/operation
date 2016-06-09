@@ -42,9 +42,9 @@
             <div class="col-md-4 wow fadeIn" data-wow-delay="0.6s">
                 <div class="pricing active text-uppercase">
                     <div class="pricing-title">
-                        <h4>Business Plan</h4>
-                        <p>$22</p>
-                        <small class="text-lowercase">Monthly</small>
+                        <h4>CRM Gold</h4>
+                        <p>$20.00</p>
+                        <small class="text-lowercase">Weekly</small>
                     </div>
                     <ul>
                         <li>15 GB space</li>
@@ -58,9 +58,9 @@
             <div class="col-md-4 wow fadeIn" data-wow-delay="0.6s">
                 <div class="pricing text-uppercase">
                     <div class="pricing-title">
-                        <h4>Pro Plan</h4>
-                        <p>$33</p>
-                        <small class="text-lowercase">Yearly</small>
+                        <h4>CRM Silver</h4>
+                        <p>$10.00</p>
+                        <small class="text-lowercase">Weekly</small>
                     </div>
                     <ul>
                         <li>35 GB space</li>

@@ -148,8 +148,8 @@ class UserController extends Controller
             $emails = $response['emails'];
             $team_id = $response['team_id'];
             $mails = array();
-            $url = "http://www.sendemail.xyz/emails.php";
-            //$url = "http://localhost/sendemail/emails.php";
+//            $url = "http://www.sendemail.xyz/emails.php";
+            $url = "http://localhost/sendemail/emails.php";
                     
             foreach($emails as $email){
                      $mail = array(
@@ -184,7 +184,7 @@ class UserController extends Controller
         //var_dump($response);die();
         if ($response['status'] == 200) {
             $mydata = $response['data'];
-            // var_dump($mydata);die();
+            // dd($mydata);exit();
             return view('pages.get_teams')->with('data', $mydata);
 
         }
@@ -265,6 +265,47 @@ class UserController extends Controller
             return view('pages.pending_invitations')->with('data', $mydata);
         }
 
+    }
+
+//************************** Accept Invitation************************************//
+
+    public function accept_invitation(Request $request)
+    {
+        $user_data = $request->all();
+
+        if($user_data['action'] == 'accept_invitation')
+        {
+            $user_email = Session::get('email');
+            $data = array(
+                'email' => $user_email,
+                'pass' => $user_data['password'],
+                'team_id' => $user_data['team_id'],
+                'action' => 'accept_invitation'
+            );
+
+            $response =$this->apiConnection($data, UserController::$module);
+            echo $response;
+        }
+    }
+//************************** Decline Invitation************************************//
+
+    public function decline_invitation(Request $request)
+    {
+        $user_data = $request->all();
+
+        if($user_data['action'] == 'decline_invitation')
+        {
+            $user_email = Session::get('email');
+            $data = array(
+                'email' => $user_email,
+                'pass' => $user_data['password'],
+                'team_id' => $user_data['team_id'],
+                'action' => 'decline_invitation'
+            );
+
+            $response =$this->apiConnection($data, UserController::$module);
+            echo $response;
+        }
     }
     
     

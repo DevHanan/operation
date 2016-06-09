@@ -61,6 +61,11 @@ Route::post('test/testStatus', array('uses' => 'UserController@userStatues'));
 //**************** getTeamsInvitedIn ******************//
 Route::get('pending_invitations',array('uses' => 'UserController@getTeamsInvitedIn'));
 
+//**************** accept & decline Invitation  ******************//
+Route::post('test/accept_invitation', array('uses'=> 'UserController@accept_invitation'));
+Route::post('test/decline_invitation', array('uses'=> 'UserController@decline_invitation'));
+
+
 //********************Notification Module************************//
 Route::get('notifications/subscription-activated', array('uses' =>'NotificationsController@subscriptionActivated'));
 Route::get('notifications/subscription-deactivated', array('uses' =>'NotificationsController@subscriptionDeactivated'));
