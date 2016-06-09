@@ -195,37 +195,10 @@ class UserController extends Controller
     public function userStatues(Request $request)
     {
 
-//        $this->validate($request,[
-//            'password' => 'required'
-//        ]);
-
-        $validator = Validator::make($request->all(), [
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('get_teams')->withErrors($validator);
-        }
-
-
-//        $team_id = $request->team_id;
-//        $user_id = $request->user_id;
-//        $admin_id = Session::get('user_id');
-//        $admin_password = $request->password;
-//
-//        $data = array(
-//            'team_id' => $team_id,
-//            'user_id' => $user_id,
-//            'admin_id' => $admin_id,
-//            'password' => $admin_password,
-//            'action' => 'activateUser_inTeam'
-//        );
-//        $response = $this->apiConnection($data,UserController::$module);
-//        var_dump($response);
-
         $user_data = $request->all();
-        //dd($user_data);
-        if ($user_data['is_active'] == 0) {
+
+        if ($user_data['action'] == 'activate') {
+
             $admin_id = Session::get('user_id');
             $data = array(
                 'team_id' => $user_data['team_id'],
@@ -236,9 +209,10 @@ class UserController extends Controller
 
             );
             $response = $this->apiConnection($data, UserController::$module);
-            var_dump($response);
+            echo $response;
         } else {
-            if ($user_data['is_active'] == 1) {
+            if ($user_data['action'] == 'deactivate') {
+
                 $admin_id = Session::get('user_id');
                 $data = array(
                     'team_id' => $user_data['team_id'],
@@ -249,7 +223,7 @@ class UserController extends Controller
 
                 );
                 $response = $this->apiConnection($data, UserController::$module);
-                var_dump($response);
+                echo $response;
             }
         }
 

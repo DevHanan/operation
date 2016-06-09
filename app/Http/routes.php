@@ -32,25 +32,18 @@ Route::get('pages/forget_password',function(){
     return View::make('pages.forget_password');
 });
 Route::post('pages/forget_password','UserController@postForgetPassword');
-/*
-Route::get('pages/change_password',function(){
-    return View::make('pages.change_password')->with('token','a5890802dded926bbdc9feb032a6ae5f');
-});*/
+
 //**************ChangePassword**************//
 Route::get('pages/change_password/{token}',function($token){
     return View::make('pages.change_password')->with('token', $token);
 });
 Route::post('pages/change_password/{token}','UserController@postChangePassword');
-
 Route::get('pages/change_my_password',function(){
     return View::make('pages.change_my_password');
 });
 Route::post('pages/change_my_password/','UserController@postChangeMyPassword');
+
 //************UserProfile****************//
-//Route::get('pages/user_profile',function(){
-//    return View::make('pages.user_profile');
-//});
-//Route::post('pages/user_profile','UserController@getUserProfile');
 Route::get('user_profile', array('uses' => 'UserController@getUserProfile'));
 
 //****************InviteUser******************//
@@ -60,14 +53,10 @@ Route::get('pages/invite_user',function(){
 Route::post('pages/invite_user','UserController@postInviteUser');
 
 //****************getTeamMembers******************//
-//Route::get('pages/get_teams',function(){
-//    return View::make('pages.get_teams');
-//});
 Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
 
 //****************activate & deactivate User******************//
-Route::post('get_teams', array('uses' => 'UserController@userStatues'));
-//Route::post('get_teams', array('uses' => 'UserController@deactivateUser'));
+Route::post('test/testStatus', array('uses' => 'UserController@userStatues'));
 
 //**************** getTeamsInvitedIn ******************//
 Route::get('pending_invitations',array('uses' => 'UserController@getTeamsInvitedIn'));
