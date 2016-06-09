@@ -76,9 +76,22 @@ class UserController extends Controller
             'action' => 'generate_reset_token'
         );
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
-        if ($response['status'] == 200) {
-            $url = "http://www.sendemail.xyz/script.php";
-            //$url = "http://localhost/sendemail/script.php";
+         if ($response['status'] == 200) {
+            $mymessage = array(
+                'email' => $email,
+                'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+            );
+            Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
+                $message->from('site_admin@gmail.com', 'Rest Password');
+                $message->to($email)->subject('Rest Password Email');
+            });
+        }
+        else {
+            var_dump($response);
+        }
+       /* if ($response['status'] == 200) {
+            //$url = "http://www.sendemail.xyz/script.php";
+            $url = "http://localhost/sendemail/script.php";
             $fields = array(
                 'email' => $email,
                 'subject' => 'Rest Password',
@@ -91,7 +104,8 @@ class UserController extends Controller
             $response = Curl::to($url)
                 ->withData($fields)
                 ->post();
-        }
+                var_dump($response);
+        }*/
     }
 
 //**************************ChangePassword************************************//
@@ -129,6 +143,7 @@ class UserController extends Controller
     }
 
 //**************************InviteUsers************************************//
+
     public function postInviteUser(Request $request)
     {
         $admin_email = Session::get('email');
@@ -148,26 +163,26 @@ class UserController extends Controller
             $emails = $response['emails'];
             $team_id = $response['team_id'];
             $mails = array();
+
 //            $url = "http://www.sendemail.xyz/emails.php";
             $url = "http://localhost/sendemail/emails.php";
-                    
+
             foreach($emails as $email){
-                     $mail = array(
-                        //'to' => $email['invited_email'] , 
-                        'subject' => 'Join My Team',
-                        'content' =>  'Hello '.$email['invited_email']."\n\r".
-                                       $admin_email .' invited you to Join his team '.
-                                       "\n\r" .'to accept his invitation please visit http://www.iti2016.xyz/pages/'.$email['url'] .'/'. $team_id
-                      );
-                    $key = preg_replace( "/\r|\n/", "", $email['invited_email'] );
-                    $mails[$key]=$mail;
+                    $invited =  preg_replace( "/\r|\n/", "", $email['invited_email'] );
+                    $mymessage = array(
+                            'email' =>$admin_email,
+                            'invited' => $invited ,
+                            'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
+                    );
+                    Mail::send('pages.inviteUsers_message', $mymessage, function ($message) use($invited) {
+                       
+                        $message->from('site_admin@gmail.com', 'Site Admin');
+                        $message->to($invited)->subject('Join My Team');
+                    });
+                }
              }
-             $fields = array(
-                'mails' => $mails,
-             );
-            $curl = Curl::to($url)
-                    ->withData($fields)
-                    ->post();
+            else {
+                echo "Error";
             }
     }
 
@@ -228,26 +243,7 @@ class UserController extends Controller
         }
 
     }
-
-//    public function deactivateUser(Request $request)
-//    {
-//        $team_id = $request->team_id;
-//        $user_id = $request->user_id;
-//        $admin_id = Session::get('user_id');
-//        $admin_password = $request->password;
-//
-//        $data = array(
-//            'team_id' => $team_id,
-//            'user_id' => $user_id,
-//            'admin_id' => $admin_id,
-//            'password' => $admin_password,
-//            'action' => 'deactivateUser_inTeam'
-//        );
-//        $response = $this->apiConnection($data,UserController::$module);
-//        var_dump($response);
-//
-//    }
-
+    
 //**************************Get Teams Invited IN************************************//
 
     public function getTeamsInvitedIn()

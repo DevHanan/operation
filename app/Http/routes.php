@@ -44,7 +44,7 @@ Route::get('pages/change_my_password',function(){
 Route::post('pages/change_my_password/','UserController@postChangeMyPassword');
 
 //************UserProfile****************//
-Route::get('user_profile', array('uses' => 'UserController@getUserProfile'));
+Route::get('user_profile', array('middleware' => 'auth','uses' => 'UserController@getUserProfile'));
 
 //****************InviteUser******************//
 Route::get('pages/invite_user',function(){
@@ -53,13 +53,13 @@ Route::get('pages/invite_user',function(){
 Route::post('pages/invite_user','UserController@postInviteUser');
 
 //****************getTeamMembers******************//
-Route::get('get_teams', array('uses' =>'UserController@getTeamMembers'));
+Route::get('get_teams', array('middleware' => 'auth','uses' =>'UserController@getTeamMembers'));
 
 //****************activate & deactivate User******************//
-Route::post('test/testStatus', array('uses' => 'UserController@userStatues'));
+Route::post('test/testStatus', array('middleware' => 'auth','uses' => 'UserController@userStatues'));
 
 //**************** getTeamsInvitedIn ******************//
-Route::get('pending_invitations',array('uses' => 'UserController@getTeamsInvitedIn'));
+Route::get('pending_invitations',array('middleware' => 'auth','uses' => 'UserController@getTeamsInvitedIn'));
 
 //**************** accept & decline Invitation  ******************//
 Route::post('test/accept_invitation', array('uses'=> 'UserController@accept_invitation'));
