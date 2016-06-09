@@ -1,4 +1,4 @@
 <body>
-Hi {{ $email }},
-Admin invite you to join to his team  {{ $url }}
+Hi {{ $invited }},
+{{ $email }}  invite you to Join his team  to accept his invitation please visit {{ $url }}
 </body>
