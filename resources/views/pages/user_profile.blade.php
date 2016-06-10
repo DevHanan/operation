@@ -35,7 +35,7 @@
                 </tr>
             </table>
             <br>
-            <a href="{{ url('pages/change_password') }}">Change Password</a>
+            <a href="{{ url('pages/change_my_password') }}">Change Password</a>
         </div>
     </div>
 </section>
