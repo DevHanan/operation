@@ -88,45 +88,48 @@
                         console.log(err)
                     }
                 });
-
-    //            $(this).parents(".record").animate("fast").animate({
-    //                opacity : "hide"
-    //            }, "slow");
         }
 
     }
 
     function decline(team_id)
     {
-        var data = {
-            team_id: $('input#team_id' + team_id).val(),
-            password: $('input#password').val(),
-            action: 'decline_invitation'
+        if(confirm('Do you want to Decline invitation??'))
+        {
+            var data = {
+                team_id: $('input#team_id' + team_id).val(),
+                password: $('input#password').val(),
+                action: 'decline_invitation'
 
-        };
-        console.log(data);
+            };
+            console.log(data);
 
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8000/test/decline_invitation',
-            data: data
-            ,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
-            },
-            success: function(the_response){
-                //console.log(the_response);
-                var resp = JSON.parse(the_response);
-                //console.log(resp);
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8000/test/decline_invitation',
+                data: data
+                ,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function(the_response){
+                    //console.log(the_response);
+                    var resp = JSON.parse(the_response);
+                    //console.log(resp);
 
-                if(resp.status == '400') {
+                    if(resp.status == '400') {
 
-                    $('#invalid_password').fadeOut(5).fadeIn('slow');
+                        $('#invalid_password').fadeOut(5).fadeIn('slow');
+                    }else{
+
+                        $("tr#trow"+team_id).remove();
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
                 }
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
+            });
+        }
+
     }
 </script>

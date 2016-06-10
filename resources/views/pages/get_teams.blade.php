@@ -42,6 +42,7 @@
                             <input type="hidden" id="team_id{{ $value['user_id'] }}"  value="{{ $value['teams_team_id'] }}">
                             <input type="hidden" id="user_id{{ $value['user_id'] }}"  value="{{ $value['user_id'] }}">
                             <button id="button{{$value['user_id']}}" onclick="user_status({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
+                            <button id="assign{{$value['user_id']}}" onclick="assign_billing({{ $value['user_id'] }})" type="button" class="btn btn-success">Assign Billing</button>
                         </td>
                     </tr>
                     @endforeach
@@ -85,7 +86,7 @@
                        $('#invalid_password').fadeOut(5).fadeIn('slow');
                    }
                    else {
-                       button.text('Deactivate');
+                       button.attr('class','btn btn-danger').text('Deactivate');
                    }
 
                },
@@ -120,7 +121,7 @@
 
                        $('#invalid_password').fadeOut(5).fadeIn('slow');
                    }else{
-                       button.text('Activate');
+                       button.attr('class','btn btn-primary').text('Activate');
                    }
                },
 
@@ -130,4 +131,49 @@
            });
        }
    }
+
+    function assign_billing(id)
+    {
+        var button = $('button#assign' + id);
+
+        if (button.text() == 'Assign Billing'){
+
+            //Assign Request
+
+            var data = {
+                team_id: $('input#team_id' + id).val(),
+                user_id: $('input#user_id' + id).val(),
+                password: $('input#password').val(),
+                action: 'assign_billing'
+
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8000/test/assign_billing',
+                data: data
+                ,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function(the_response){
+                    var resp = JSON.parse(the_response);
+
+                    if(resp.status == '400') {
+
+                        $('#invalid_password').fadeOut(5).fadeIn('slow');
+                    }
+                    else {
+                        button.attr('class','btn btn-danger').text('Reassign Billing');
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+
+        }
+
+    }
 </script>

@@ -61,6 +61,8 @@ class UserController extends Controller
         }
     }
 
+//**************************Logout************************************//
+
     public function logout()
     {
         Session::flush();
@@ -243,7 +245,28 @@ class UserController extends Controller
         }
 
     }
-    
+
+//************************** Assign Billing ************************************//
+
+    public function assign_billing(Request $request)
+    {
+        $user_data = $request->all();
+
+        if($user_data['action'] == 'assign_billing')
+        {
+            $data = array(
+                'team_id' => $user_data['team_id'],
+                'pass' => $user_data['password'],
+                'user_id' => $user_data['user_id'],
+                'action' => 'assign_billing'
+
+            );
+            $response =$this->apiConnection($data, UserController::$module);
+            echo $response;
+        }
+    }
+
+
 //**************************Get Teams Invited IN************************************//
 
     public function getTeamsInvitedIn()
@@ -296,7 +319,7 @@ class UserController extends Controller
                 'email' => $user_email,
                 'pass' => $user_data['password'],
                 'team_id' => $user_data['team_id'],
-                'action' => 'decline_invitation'
+                'action' => 'remove_invation'
             );
 
             $response =$this->apiConnection($data, UserController::$module);

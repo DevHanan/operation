@@ -58,6 +58,9 @@ Route::get('get_teams', array('middleware' => 'auth','uses' =>'UserController@ge
 //****************activate & deactivate User******************//
 Route::post('test/testStatus', array('middleware' => 'auth','uses' => 'UserController@userStatues'));
 
+//**************** assign billing ******************//
+Route::post('test/assign_billing', array('uses' => 'UserController@assign_billing'));
+
 //**************** getTeamsInvitedIn ******************//
 Route::get('pending_invitations',array('middleware' => 'auth','uses' => 'UserController@getTeamsInvitedIn'));
 
