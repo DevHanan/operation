@@ -137,8 +137,8 @@ class UserController extends Controller
         $rules = array(
 
             'email' => 'required|email|max:255',
-            'password' => 'required|min:6',
-            'password_confirmation' => 'required|min:6|confirmed'
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -367,8 +367,8 @@ class UserController extends Controller
         $rules = array(
 
             'oldpassword' => 'required|min:6',
-            'password' => 'required|min:6',
-            'password_confirmation' => 'required|min:6|confirmed'
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6'
         );
 
         $validator = Validator::make(Input::all(), $rules);
