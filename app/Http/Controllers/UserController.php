@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Ixudra\Curl\Facades\Curl;
 
 use Session;
+
 //use Mailgun;
 use Mail;
 use Validator;
