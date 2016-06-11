@@ -34,17 +34,18 @@
                     <th>Role</th>
                     <th>Actions</th>
                     @foreach($data as $value)
-                    <tr>
-                        <td>{{ $value['user_name'] }}</td>
-                        <td>{{ $value['user_email'] }}</td>
-                        <td>{{ $value['role_name'] }}</td>
-                        <td>
-                            <input type="hidden" id="team_id{{ $value['user_id'] }}"  value="{{ $value['teams_team_id'] }}">
-                            <input type="hidden" id="user_id{{ $value['user_id'] }}"  value="{{ $value['user_id'] }}">
-                            <button id="button{{$value['user_id']}}" onclick="user_status({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
-                            <button id="assign{{$value['user_id']}}" onclick="assign_billing({{ $value['user_id'] }})" type="button" class="btn btn-success">Assign Billing</button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $value['user_name'] }}</td>
+                            <td>{{ $value['user_email'] }}</td>
+                            <td>{{ $value['role_name'] }}</td>
+                            <td>
+                                <input type="hidden" id="team_id{{ $value['user_id'] }}"  value="{{ $value['teams_team_id'] }}">
+                                <input type="hidden" id="user_id{{ $value['user_id'] }}"  value="{{ $value['user_id'] }}">
+                                <button id="button{{$value['user_id']}}" onclick="user_status({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
+                                <button id="assign{{$value['user_id']}}" onclick="assign_billing({{ $value['user_id'] }})" type="button" class="btn btn-success">Assign Billing</button>
+
+                            </td>
+                        </tr>
                     @endforeach
                 </table>
             </form>
@@ -54,83 +55,80 @@
 
 <script>
 
-   function user_status(id) {
+    function user_status(id) {
 
-       var button = $('button#button' + id);
-       //console.log("button : ",button);
+        var button = $('button#button' + id);
+        //console.log("button : ",button);
 
-       if (button.text() == 'Activate') {
+        if (button.text() == 'Activate') {
 
-           // Activate request
-           var data = {
-               team_id: $('input#team_id' + id).val(),
-               user_id: $('input#user_id' + id).val(),
-               password: $('input#password').val(),
-               action: 'activate'
+            // Activate request
+            var data = {
+                team_id: $('input#team_id' + id).val(),
+                user_id: $('input#user_id' + id).val(),
+                password: $('input#password').val(),
+                action: 'activate'
 
-           };
-           //console.log(data);
-           $.ajax({
-               type: 'POST',
-               url: 'http://localhost:8000/test/testStatus',
-               data: data
-               ,
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
-               },
-               success: function(the_response){
-                   var resp = JSON.parse(the_response);
+            };
+            //console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/test/testStatus',
+                data: data
+                ,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function(the_response){
+                    var resp = JSON.parse(the_response);
 
-                   if(resp.status == '400') {
+                    if(resp.status == '400') {
 
-                       $('#invalid_password').fadeOut(5).fadeIn('slow');
-                   }
-                   else {
-                       button.attr('class','btn btn-danger').text('Deactivate');
-                   }
+                        $('#invalid_password').fadeOut(5).fadeIn('slow');
+                    }
+                    else {
+                        button.attr('class','btn btn-danger').text('Deactivate');
+                    }
 
-               },
-              error: function (err) {
-               console.log(err)
-               }
-           });
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
 
-       } else {
-           // deactivate request
-           var data = {
-               team_id: $('input#team_id' + id).val(),
-               user_id: $('input#user_id' + id).val(),
-               password: $('input#password').val(),
-               action: 'deactivate'
+        } else {
+            // deactivate request
+            var data = {
+                team_id: $('input#team_id' + id).val(),
+                user_id: $('input#user_id' + id).val(),
+                password: $('input#password').val(),
+                action: 'deactivate'
 
-           };
-           //console.log(data);
-           $.ajax({
-               type: 'POST',
-               url: 'http://localhost:8000/test/testStatus',
-               data: data
-               ,
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
-               },
-               success: function(the_response){
-                   var resp = JSON.parse(the_response);
+            };
+            //console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/test/testStatus',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function(the_response){
+                    var resp = JSON.parse(the_response);
+                    if(resp.status == '400') {
 
+                        $('#invalid_password').fadeOut(5).fadeIn('slow');
+                    }else{
+                        button.attr('class','btn btn-primary').text('Activate');
+                    }
+                },
 
-                   if(resp.status == '400') {
-
-                       $('#invalid_password').fadeOut(5).fadeIn('slow');
-                   }else{
-                       button.attr('class','btn btn-primary').text('Activate');
-                   }
-               },
-
-               error: function (err) {
-                   console.log(err);
-               }
-           });
-       }
-   }
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    }
 
     function assign_billing(id)
     {
@@ -150,17 +148,16 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8000/test/assign_billing',
-                data: data
-                ,
+                url: '/test/assign_billing',
+                data: data,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
                 },
                 success: function(the_response){
                     var resp = JSON.parse(the_response);
-
                     if(resp.status == '400') {
 
+                        $('#invalid_password').text(resp.message);
                         $('#invalid_password').fadeOut(5).fadeIn('slow');
                     }
                     else {

@@ -65,7 +65,7 @@
             console.log(data);
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8000/test/accept_invitation',
+                    url: '/test/accept_invitation',
                     data: data
                     ,
                     headers: {
@@ -106,7 +106,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8000/test/decline_invitation',
+                url: '/test/decline_invitation',
                 data: data
                 ,
                 headers: {
