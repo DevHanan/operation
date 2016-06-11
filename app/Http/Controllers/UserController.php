@@ -10,6 +10,8 @@ use Session;
 //use Mailgun;
 use Mail;
 use Validator;
+use Illuminate\Support\Facades\Input;
+
 
 class UserController extends Controller
 {
@@ -23,12 +25,28 @@ class UserController extends Controller
         $user_name = $request->input('user_name');
         $email = $request->input('email');
         $password = $request->input('password');
+
+        //sign up validation
+
+        $rules = array(
+            'user_name' => 'required|max:30',
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/signup')->withErrors($validator);
+        }
+
         $data = array(
             'name' => $user_name,
             'email' => $email,
             'pass' => $password,
             'action' => 'signup'
         );
+
         $response = json_decode($this->apiConnection($data, UserController::$module),true);
         if ($response['status'] == 200) {
             session(['name' =>  $user_name]);
@@ -45,6 +63,19 @@ class UserController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
+
+        //login validation
+
+        $rules = array(
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/login')->withErrors($validator);
+        }
         $data = array(
             'email' => $email,
             'pass' => $password,
@@ -82,7 +113,8 @@ class UserController extends Controller
          if ($response['status'] == 200) {
             $mymessage = array(
                 'email' => $email,
-                'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+                //'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+                'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
                 $message->from('site_admin@gmail.com', 'Rest Password');
@@ -92,23 +124,6 @@ class UserController extends Controller
         else {
             var_dump($response);
         }
-       /* if ($response['status'] == 200) {
-            //$url = "http://www.sendemail.xyz/script.php";
-            $url = "http://localhost/sendemail/script.php";
-            $fields = array(
-                'email' => $email,
-                'subject' => 'Rest Password',
-                'content' => 'to reset Your password please visit http://www.iti2016.xyz/pages/change_password/' . $response['token']
-            );
-            $fields_string = null;
-            foreach ($fields as $key => $value) {
-                $fields_string .= $key . '=' . $value . '&';
-            }
-            $response = Curl::to($url)
-                ->withData($fields)
-                ->post();
-                var_dump($response);
-        }*/
     }
 
 //**************************ChangePassword************************************//
@@ -118,6 +133,21 @@ class UserController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
+        // change password validation
+        $rules = array(
+
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|min:6|confirmed'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages.change_password')->withErrors($validator);
+        }
+
         $token = $request->input('token');
         $data = array(
             'email' => $email,
@@ -166,15 +196,12 @@ class UserController extends Controller
             $emails = $response['emails'];
             $team_id = $response['team_id'];
             $mails = array();
-
-//            $url = "http://www.sendemail.xyz/emails.php";
-            $url = "http://localhost/sendemail/emails.php";
-
             foreach($emails as $email){
                     $invited =  preg_replace( "/\r|\n/", "", $email['invited_email'] );
                     $mymessage = array(
                             'email' =>$admin_email,
                             'invited' => $invited ,
+                            //'url' =>  'http://localhost:8000/pages/'.$email['url'].'/'.$team_id ,
                             'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
                     );
                     Mail::send('pages.inviteUsers_message', $mymessage, function ($message) use($invited) {
@@ -335,6 +362,21 @@ class UserController extends Controller
         $oldpassword = $request->input('oldpassword');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
+
+        // change password validation
+        $rules = array(
+
+            'oldpassword' => 'required|min:6',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|min:6|confirmed'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/change_my_password/')->withErrors($validator);
+        }
         $data = array(
             'email' => $email,
             'old_password' => $oldpassword,
