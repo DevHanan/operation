@@ -1,5 +1,4 @@
 @extends('layouts.layout')
-
 <style>
     #teams
     {
@@ -25,25 +24,156 @@
 <section id="teams">
     <div class="overlay">
         <div class="container">
-            <table class="table">
-                <th>User Name</th>
-                <th>User Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-                @foreach($data as $value)
-                <tr>
-                    <td>{{ $value['user_name'] }}</td>
-                    <td>{{ $value['user_email'] }}</td>
-                    <td>{{ $value['role_name'] }}</td>
-                    <td>
-                        <a href="{{ URL::to('get_teams') }}" class="btn btn-primary">Activate</a>
-                        <a href="{{ URL::to('get_teams',array('user_id'=> $value['user_id'] , 'team_id'=> $value['teams_team_id'])) }}" class="btn btn-danger">Deactivate</a>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
+            <form>
+                <input type="password" class="form-control" id="password">
+                <label style="display: none" class="label label-danger" id="invalid_password">Invalid Password</label>
+                <br><br>
+                <table class="table">
+                    <th>User Name</th>
+                    <th>User Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                    @foreach($data as $value)
+                    <tr>
+                        <td>{{ $value['user_name'] }}</td>
+                        <td>{{ $value['user_email'] }}</td>
+                        <td>{{ $value['role_name'] }}</td>
+                        <td>
+                            <input type="hidden" id="team_id{{ $value['user_id'] }}"  value="{{ $value['teams_team_id'] }}">
+                            <input type="hidden" id="user_id{{ $value['user_id'] }}"  value="{{ $value['user_id'] }}">
+                            <button id="button{{$value['user_id']}}" onclick="user_status({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
+                            <button id="assign{{$value['user_id']}}" onclick="assign_billing({{ $value['user_id'] }})" type="button" class="btn btn-success">Assign Billing</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+            </form>
         </div>
-        <input type="password" class="form-control" name="password">
     </div>
 </section>
 
+<script>
+
+   function user_status(id) {
+
+       var button = $('button#button' + id);
+       //console.log("button : ",button);
+
+       if (button.text() == 'Activate') {
+
+           // Activate request
+           var data = {
+               team_id: $('input#team_id' + id).val(),
+               user_id: $('input#user_id' + id).val(),
+               password: $('input#password').val(),
+               action: 'activate'
+
+           };
+           //console.log(data);
+           $.ajax({
+               type: 'POST',
+               url: 'http://localhost:8000/test/testStatus',
+               data: data
+               ,
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+               },
+               success: function(the_response){
+                   var resp = JSON.parse(the_response);
+
+                   if(resp.status == '400') {
+
+                       $('#invalid_password').fadeOut(5).fadeIn('slow');
+                   }
+                   else {
+                       button.attr('class','btn btn-danger').text('Deactivate');
+                   }
+
+               },
+              error: function (err) {
+               console.log(err)
+               }
+           });
+
+       } else {
+           // deactivate request
+           var data = {
+               team_id: $('input#team_id' + id).val(),
+               user_id: $('input#user_id' + id).val(),
+               password: $('input#password').val(),
+               action: 'deactivate'
+
+           };
+           //console.log(data);
+           $.ajax({
+               type: 'POST',
+               url: 'http://localhost:8000/test/testStatus',
+               data: data
+               ,
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+               },
+               success: function(the_response){
+                   var resp = JSON.parse(the_response);
+
+
+                   if(resp.status == '400') {
+
+                       $('#invalid_password').fadeOut(5).fadeIn('slow');
+                   }else{
+                       button.attr('class','btn btn-primary').text('Activate');
+                   }
+               },
+
+               error: function (err) {
+                   console.log(err);
+               }
+           });
+       }
+   }
+
+    function assign_billing(id)
+    {
+        var button = $('button#assign' + id);
+
+        if (button.text() == 'Assign Billing'){
+
+            //Assign Request
+
+            var data = {
+                team_id: $('input#team_id' + id).val(),
+                user_id: $('input#user_id' + id).val(),
+                password: $('input#password').val(),
+                action: 'assign_billing'
+
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8000/test/assign_billing',
+                data: data
+                ,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                },
+                success: function(the_response){
+                    var resp = JSON.parse(the_response);
+
+                    if(resp.status == '400') {
+
+                        $('#invalid_password').fadeOut(5).fadeIn('slow');
+                    }
+                    else {
+                        button.attr('class','btn btn-danger').text('Reassign Billing');
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+
+        }
+
+    }
+</script>

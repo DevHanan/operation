@@ -19,10 +19,10 @@
                         <li><a href="{{ url('user_profile') }}">Profile</a></li>
                         <li><a href="{{ url('get_teams') }}">Teams</a></li>
                         <li><a href="#">Plans</a></li>
+                        <li><a href="{{ url('pages/invite_user') }}">Invite Users To Join</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                       </ul>
+                        <li><a href="{{ url('pending_invitations') }}">Pending Invitations</a></li>
+                        </ul>
                    </li>
                 <li><a href="{{ url('logout') }}">Log out</a></li>
               </ul>

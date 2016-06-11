@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 <style>
-    #invite_user
+    #change_password
     {
         background:  url('../images/Transparent-business.jpg') no-repeat;
         background-size: cover;
@@ -10,36 +10,36 @@
         text-align: center;
         width: 100%;
     }
-    #invite_user p
+    #change_password p
     {
         font-weight: 400;
         font-style: italic;
         line-height: 2em;
     }
-    #invite_user img
+    #change_password img
     {
         display: inline-block;
         margin-top: 30px;
     }
 </style>
-<section id="invite_user">
+<section id="change_password">
     <div class="overlay">
         <div class="container">
             <form method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group col-lg-offset-3 col-lg-6">
-                    <label for="Email">Enter Your Admin Email</label>
-                    <input type="email" class="form-control" name="admin_email"  placeholder="Email">
+                    <label for="oldpassword">Enter Current Password</label>
+                    <input type="password" class="form-control"  name="oldpassword" id ="oldpassword">
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
-                    <label for="Email">Enter Your Admin Password</label>
-                    <input type="password" class="form-control" name="admin_password"  placeholder="Password">
+                    <label for="password">Enter New Password</label>
+                    <input type="password" class="form-control"  name="password" id ="password">
                 </div>
                 <div class="form-group col-lg-offset-3 col-lg-6">
-                    <label for="Email">Invited Emails Sperated By Enter "New Line"</label>
-                    <textarea class="form-control" name="invited_emails"></textarea>
+                    <label for="password">Confirm Password</label>
+                    <input type="password" class="form-control"  name="password_confirmation" id ="password_confirmation">
                     <br>
-                    <button type="submit" class="btn btn-block btn-primary">Invite</button>
+                    <button type="submit" class="btn btn-block btn-primary">Change Password</button>
                 </div>
             </form>
         </div>

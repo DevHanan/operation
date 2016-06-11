@@ -13,28 +13,22 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-    public function apiConnection($data)
+    public function apiConnection($data,$module)
     {
         $hashed_array = $data;
         $key = 'mjHr8Kc7LQ3twxXIVCFSl5#cMf#6bUSv';
         $hashed_array['key'] = $key;
 
         $hash = md5(implode("", $hashed_array));
-        $url = "http://127.0.0.1/SaaSBase/member";
-
+//        $url = "http://localhost/SaaSBase/$module";
+        $url = "http://www.saasbase.xyz/$module";
         $fields = array(
             'data' => json_encode($data),
             'hash' => $hash,
         );
-        $fields_string = null;
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
-
         $response = Curl::to($url)
             ->withData($fields)
             ->post();
         return $response;
-
     }
 }
