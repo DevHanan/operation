@@ -9,6 +9,8 @@ use Session;
 //use Mailgun;
 use Mail;
 use Validator;
+use Illuminate\Support\Facades\Input;
+
 
 class UserController extends Controller
 {
@@ -22,12 +24,28 @@ class UserController extends Controller
         $user_name = $request->input('user_name');
         $email = $request->input('email');
         $password = $request->input('password');
+
+        //sign up validation
+
+        $rules = array(
+            'user_name' => 'required|max:30',
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/signup')->withErrors($validator);
+        }
+
         $data = array(
             'name' => $user_name,
             'email' => $email,
             'pass' => $password,
             'action' => 'signup'
         );
+
         $response = json_decode($this->apiConnection($data, UserController::$module),true);
         if ($response['status'] == 200) {
             session(['name' =>  $user_name]);
@@ -44,6 +62,19 @@ class UserController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
+
+        //login validation
+
+        $rules = array(
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/login')->withErrors($validator);
+        }
         $data = array(
             'email' => $email,
             'pass' => $password,
@@ -117,6 +148,22 @@ class UserController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
+
+        // change password validation
+        $rules = array(
+
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|min:6|confirmed'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages.change_password')->withErrors($validator);
+        }
+
         $token = $request->input('token');
         $data = array(
             'email' => $email,
@@ -334,6 +381,21 @@ class UserController extends Controller
         $oldpassword = $request->input('oldpassword');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
+
+        // change password validation
+        $rules = array(
+
+            'oldpassword' => 'required|min:6',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|min:6|confirmed'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return redirect('pages/change_my_password/')->withErrors($validator);
+        }
         $data = array(
             'email' => $email,
             'old_password' => $oldpassword,
