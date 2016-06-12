@@ -33,7 +33,6 @@
                     <ul>
                         <li>6 GB Space</li>
                         <li>600 GB Bandwidth</li>
-                        <li>60 More Themes</li>
                         <li>Lifetime Support</li>
                     </ul>
                     <button class="btn btn-primary text-uppercase">Sign up</button>
@@ -47,9 +46,8 @@
                         <small class="text-lowercase">Weekly</small>
                     </div>
                     <ul>
-                        <li>15 GB space</li>
-                        <li>1,500 GB Bandwidth</li>
-                        <li>150 More Themes</li>
+                        <li>35 GB space</li>
+                        <li>3,500 GB bandwidth</li>
                         <li>Lifetime Support</li>
                     </ul>
                     <button class="btn btn-primary text-uppercase">Sign up</button>
@@ -63,9 +61,8 @@
                         <small class="text-lowercase">Weekly</small>
                     </div>
                     <ul>
-                        <li>35 GB space</li>
-                        <li>3,500 GB bandwidth</li>
-                        <li>350 more themes</li>
+                        <li>15 GB space</li>
+                        <li>1,500 GB Bandwidth</li>
                         <li>Lifetime Support</li>
                     </ul>
                     <button class="btn btn-primary text-uppercase">Sign Up</button>

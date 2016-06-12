@@ -156,7 +156,13 @@ class UserController extends Controller
             'action' => 'change_password'
         );
         $response = $this->apiConnection($data, UserController::$module);
-        var_dump($response);
+        //var_dump($response);
+        if($response['status'] == 200)
+        {
+            return view('pages/user_profile');
+        }else{
+            return view('errors/404');
+        }
     }
 
 //**************************UserProfile************************************//
@@ -172,6 +178,8 @@ class UserController extends Controller
         if ($response['status'] == 200) {
             $mydata = $response['data'];
             return view('pages.user_profile')->with('data', $mydata);
+        }else{
+            return view('errors/404');
         }
     }
 
@@ -212,7 +220,7 @@ class UserController extends Controller
                 }
              }
             else {
-                echo "Error";
+                return view('errors/406');
             }
     }
 
@@ -279,9 +287,9 @@ class UserController extends Controller
     public function assign_billing(Request $request)
     {
         $user_data = $request->all();
-
         if($user_data['action'] == 'assign_billing')
         {
+
             $data = array(
                 'team_id' => $user_data['team_id'],
                 'pass' => $user_data['password'],
@@ -289,7 +297,8 @@ class UserController extends Controller
                 'action' => 'assign_billing'
 
             );
-            $response =$this->apiConnection($data, UserController::$module);
+            //$response = json_decode($this->apiConnection($data, UserController::$module),true);
+            $response = $this->apiConnection($data, UserController::$module);
             echo $response;
         }
     }
@@ -354,9 +363,9 @@ class UserController extends Controller
             echo $response;
         }
     }
-    
-    
-    
+
+//************************** Change Password without token ************************************//
+
     public function postChangeMyPassword(Request $request){
         $email = Session::get('email');
         $oldpassword = $request->input('oldpassword');
@@ -383,7 +392,13 @@ class UserController extends Controller
             'password' => $password,
             'action' => 'change_password'
         );
-        $response = $this->apiConnection($data, UserController::$module);
-        var_dump($response);
+        $response = json_decode($this->apiConnection($data, UserController::$module),true);
+        //var_dump($response);
+        if($response['status'] == 200)
+        {
+            return view('pages.home');
+        }else{
+            return view('errors/406');
+        }
     }
  }
