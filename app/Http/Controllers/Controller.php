@@ -20,8 +20,8 @@ class Controller extends BaseController
         $hashed_array['key'] = $key;
 
         $hash = md5(implode("", $hashed_array));
-        $url = "http://localhost/SaaSBase/$module";
-//        $url = "http://www.saasbase.xyz/$module";
+        //$url = "http://localhost/SaaSBase/$module";
+        $url = "http://www.saasbase.xyz/$module";
         $fields = array(
             'data' => json_encode($data),
             'hash' => $hash,
