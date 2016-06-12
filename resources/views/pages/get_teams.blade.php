@@ -39,6 +39,7 @@
                             <td>{{ $value['user_email'] }}</td>
                             <td>{{ $value['role_name'] }}</td>
                             <td>
+                                <input type="hidden" id="is_active{{ $value['user_id'] }}" value="{{ $value['Is_active'] }}">
                                 <input type="hidden" id="team_id{{ $value['user_id'] }}"  value="{{ $value['teams_team_id'] }}">
                                 <input type="hidden" id="user_id{{ $value['user_id'] }}"  value="{{ $value['user_id'] }}">
                                 <button id="button{{$value['user_id']}}" onclick="user_status({{ $value['user_id'] }})" type="button" class="btn btn-primary">Activate</button>
@@ -56,12 +57,10 @@
 <script>
 
     function user_status(id) {
-
         var button = $('button#button' + id);
         //console.log("button : ",button);
 
         if (button.text() == 'Activate') {
-
             // Activate request
             var data = {
                 team_id: $('input#team_id' + id).val(),
@@ -83,7 +82,7 @@
                     var resp = JSON.parse(the_response);
 
                     if(resp.status == '400') {
-
+                        $('#invalid_password').text(resp.message);
                         $('#invalid_password').fadeOut(5).fadeIn('slow');
                     }
                     else {
@@ -116,11 +115,12 @@
                 success: function(the_response){
                     var resp = JSON.parse(the_response);
                     if(resp.status == '400') {
-
+                        $('#invalid_password').text(resp.message);
                         $('#invalid_password').fadeOut(5).fadeIn('slow');
                     }else{
                         button.attr('class','btn btn-primary').text('Activate');
                     }
+
                 },
 
                 error: function (err) {
