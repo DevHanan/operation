@@ -218,6 +218,7 @@ class UserController extends Controller
                         $message->to($invited)->subject('Join My Team');
                     });
                 }*/
+                 return view('pages/home');
              }
             else {
                 return view('errors/406');
