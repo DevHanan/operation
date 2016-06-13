@@ -111,18 +111,19 @@ class UserController extends Controller
         );
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
          if ($response['status'] == 200) {
-            $mymessage = array(
+           /* $mymessage = array(
                 'email' => $email,
-                //'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
-                'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
+                'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+                //'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
                 $message->from('site_admin@gmail.com', 'Rest Password');
                 $message->to($email)->subject('Rest Password Email');
-            });
+            });*/
+            return view('pages/home');
         }
         else {
-            var_dump($response);
+            return view('pages/404');
         }
     }
 
@@ -156,10 +157,9 @@ class UserController extends Controller
             'action' => 'change_password'
         );
         $response = $this->apiConnection($data, UserController::$module);
-        //var_dump($response);
         if($response['status'] == 200)
         {
-            return view('pages/user_profile');
+            return view('pages/home');
         }else{
             return view('errors/404');
         }
@@ -200,7 +200,7 @@ class UserController extends Controller
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
         if($response['status'] == 200)
         {
-            
+            /*
             $emails = $response['emails'];
             $team_id = $response['team_id'];
             $mails = array();
@@ -209,15 +209,15 @@ class UserController extends Controller
                     $mymessage = array(
                             'email' =>$admin_email,
                             'invited' => $invited ,
-                            //'url' =>  'http://localhost:8000/pages/'.$email['url'].'/'.$team_id ,
-                            'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
+                            'url' =>  'http://localhost:8000/pages/'.$email['url'].'/'.$team_id ,
+                            //'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
                     );
                     Mail::send('pages.inviteUsers_message', $mymessage, function ($message) use($invited) {
                        
                         $message->from('site_admin@gmail.com', 'Site Admin');
                         $message->to($invited)->subject('Join My Team');
                     });
-                }
+                }*/
              }
             else {
                 return view('errors/406');
@@ -232,12 +232,9 @@ class UserController extends Controller
             'email' => $user_email,
             'action' => 'get_team_members'
         );
-
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
-        //var_dump($response);die();
         if ($response['status'] == 200) {
             $mydata = $response['data'];
-            // dd($mydata);exit();
             return view('pages.get_teams')->with('data', $mydata);
 
         }
@@ -273,7 +270,6 @@ class UserController extends Controller
                     'admin_id' => $admin_id,
                     'password' => $user_data['password'],
                     'action' => 'deactivateUser_inTeam'
-
                 );
                 $response = $this->apiConnection($data, UserController::$module);
                 echo $response;
@@ -295,9 +291,7 @@ class UserController extends Controller
                 'pass' => $user_data['password'],
                 'user_id' => $user_data['user_id'],
                 'action' => 'assign_billing'
-
             );
-            //$response = json_decode($this->apiConnection($data, UserController::$module),true);
             $response = $this->apiConnection($data, UserController::$module);
             echo $response;
         }
@@ -313,9 +307,7 @@ class UserController extends Controller
             'user_email' => $user_email,
             'action' => 'getTeamsInvitedIn'
         );
-
         $response = json_decode($this->apiConnection($data,UserController::$module),true);
-        //var_dump($response);die();
         if ($response['status'] == 200) {
             $mydata = $response['data'];
             return view('pages.pending_invitations')->with('data', $mydata);
@@ -328,7 +320,6 @@ class UserController extends Controller
     public function accept_invitation(Request $request)
     {
         $user_data = $request->all();
-
         if($user_data['action'] == 'accept_invitation')
         {
             $user_email = Session::get('email');
@@ -338,7 +329,6 @@ class UserController extends Controller
                 'team_id' => $user_data['team_id'],
                 'action' => 'accept_invitation'
             );
-
             $response =$this->apiConnection($data, UserController::$module);
             echo $response;
         }
@@ -358,7 +348,6 @@ class UserController extends Controller
                 'team_id' => $user_data['team_id'],
                 'action' => 'remove_invation'
             );
-
             $response =$this->apiConnection($data, UserController::$module);
             echo $response;
         }
@@ -371,17 +360,13 @@ class UserController extends Controller
         $oldpassword = $request->input('oldpassword');
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
-
         // change password validation
         $rules = array(
-
             'oldpassword' => 'required|min:6',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6'
         );
-
         $validator = Validator::make(Input::all(), $rules);
-
         if ($validator->fails())
         {
             return redirect('pages/change_my_password/')->withErrors($validator);
@@ -393,7 +378,6 @@ class UserController extends Controller
             'action' => 'change_password'
         );
         $response = json_decode($this->apiConnection($data, UserController::$module),true);
-        //var_dump($response);
         if($response['status'] == 200)
         {
             return view('pages.home');
