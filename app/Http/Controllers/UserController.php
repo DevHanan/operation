@@ -111,15 +111,15 @@ class UserController extends Controller
         );
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
          if ($response['status'] == 200) {
-           /* $mymessage = array(
+            $mymessage = array(
                 'email' => $email,
-                'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
-                //'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
+                //'url' => 'http://localhost:8000/pages/change_password/' . $response['token'],
+                'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
                 $message->from('site_admin@gmail.com', 'Rest Password');
                 $message->to($email)->subject('Rest Password Email');
-            });*/
+            });
             return view('pages/home');
         }
         else {
@@ -200,7 +200,7 @@ class UserController extends Controller
         $response = json_decode($this->apiConnection($data, UserController::$module), true);
         if($response['status'] == 200)
         {
-            /*
+            
             $emails = $response['emails'];
             $team_id = $response['team_id'];
             $mails = array();
@@ -209,15 +209,15 @@ class UserController extends Controller
                     $mymessage = array(
                             'email' =>$admin_email,
                             'invited' => $invited ,
-                            'url' =>  'http://localhost:8000/pages/'.$email['url'].'/'.$team_id ,
-                            //'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
+                            //'url' =>  'http://localhost:8000/pages/'.$email['url'].'/'.$team_id ,
+                            'url' =>  'http://www.iti2016.xyz/pages/'.$email['url'].'/'.$team_id ,
                     );
                     Mail::send('pages.inviteUsers_message', $mymessage, function ($message) use($invited) {
                        
                         $message->from('site_admin@gmail.com', 'Site Admin');
                         $message->to($invited)->subject('Join My Team');
                     });
-                }*/
+                }
                  return view('pages/home');
              }
             else {
