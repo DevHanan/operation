@@ -117,7 +117,7 @@ class UserController extends Controller
                 'url' =>  'http://www.iti2016.xyz/pages/change_password/' . $response['token'] ,
             );
             Mail::send('pages.forget_password_message', $mymessage, function ($message) use(&$email) {
-                $message->from('site_admin@gmail.com', 'Rest Password');
+                $message->from('amrfayad.sys.online@gmail.com', 'Rest Password');
                 $message->to($email)->subject('Rest Password Email');
             });
             return view('pages/home');
@@ -214,7 +214,7 @@ class UserController extends Controller
                     );
                     Mail::send('pages.inviteUsers_message', $mymessage, function ($message) use($invited) {
                        
-                        $message->from('site_admin@gmail.com', 'Site Admin');
+                        $message->from('amrfayad.sys.online@gmail.com', 'Site Admin');
                         $message->to($invited)->subject('Join My Team');
                     });
                 }
