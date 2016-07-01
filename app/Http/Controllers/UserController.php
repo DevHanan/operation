@@ -156,7 +156,7 @@ class UserController extends Controller
             'token' => $token,
             'action' => 'change_password'
         );
-        $response = $this->apiConnection($data, UserController::$module);
+        $response =  json_decode($this->apiConnection($data, UserController::$module), true);
         if($response['status'] == 200)
         {
             return view('pages/home');
