@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Product Crud operation</title>
+<title> Catogeries </title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -36,8 +36,8 @@
 			<table class="table table-borderless" id="table">
 				<thead>
 					<tr>
-						<th class="text-center">Product_ID</th>
-						<th class="text-center">Product_Name</th>
+						<th class="text-center">catogery_ID</th>
+						<th class="text-center">catogery_Name</th>
 						<th class="text-center">Actions</th>
 					</tr>
 				</thead>
@@ -52,7 +52,9 @@
 						<button class="delete-modal btn btn-danger"
 							data-id="{{$item->id}}" data-name="{{$item->name}}">
 							<span class="glyphicon glyphicon-trash"></span> Delete
-						</button></td>
+						</button>
+						<a  class="btn btn-default" href="/welcome/{{$item->id}}">show_products </a>
+					</td>
 				</tr>
 				@endforeach
 			</table>
@@ -69,13 +71,13 @@
 				<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="id">product_ID:</label>
+							<label class="control-label col-sm-2" for="id">catogery_ID:</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="fid" disabled>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="name">product_Name:</label>
+							<label class="control-label col-sm-2" for="name">catogery_Name:</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="n">
 							</div>
@@ -130,7 +132,7 @@
 
         $.ajax({
             type: 'post',
-            url: '/editItem',
+            url: '/editCat',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $("#fid").val(),
@@ -145,7 +147,7 @@
 
         $.ajax({
             type: 'post',
-            url: '/addItem',
+            url: '/addCat',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'name': $('input[name=name]').val()
@@ -167,7 +169,7 @@
     $('.modal-footer').on('click', '.delete', function() {
         $.ajax({
             type: 'post',
-            url: '/deleteItem',
+            url: '/deleteCat',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('.did').text()
